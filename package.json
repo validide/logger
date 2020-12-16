@@ -1,0 +1,57 @@
+{
+  "name": "@validide/logger",
+  "version": "0.0.1",
+  "description": "A Simple JavaScript logger.",
+  "main": "dist/bundle/index.js",
+  "module": "dist/js/index.js",
+  "types": "dist/js/index.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "1.0.1",
+    "@types/chai": "4.2.12",
+    "@types/jsdom": "16.2.4",
+    "@types/mocha": "8.0.3",
+    "chai": "4.2.0",
+    "glob": "7.1.6",
+    "jsdom": "16.4.0",
+    "mocha": "8.1.3",
+    "nyc": "15.1.0",
+    "rimraf": "3.0.2",
+    "rollup": "2.26.10",
+    "source-map-support": "0.5.19",
+    "ts-node": "9.0.0",
+    "tslint": "6.1.3",
+    "typescript": "4.0.2",
+    "uglify-js": "3.10.3"
+  },
+  "scripts": {
+    "clean": "node ./.build/clean.js",
+    "prebuild": "npm run clean",
+    "build": "tsc --module es2015 --target ES2015 --declaration --outFile ./dist/js/index.es2015.js --emitDeclarationOnly && tsc --module es2015 --target ES5 && rollup --config ./rollup.config.js && node ./.build/minify.js",
+    "test": "npm run lint && nyc mocha",
+    "predocs": "npm run test && npm run build",
+    "docs": "rollup --config ./rollup.config.js --dir ./docs/demo/lib/bundle/",
+    "predocs_dev": "npm run build",
+    "docs_dev": "rollup --config ./rollup.config.js --dir ./docs/demo/lib/bundle/",
+    "lint": "tslint --config ./tslint.json --project ./tsconfig.json --format stylish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/validide/logger.git"
+  },
+  "keywords": [
+    "micro",
+    "front",
+    "end"
+  ],
+  "author": "Valentin Dide",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/validide/logger/issues"
+  },
+  "homepage": "https://github.com/validide/logger#readme",
+  "files": [
+    "dist",
+    "src"
+  ]
+}
