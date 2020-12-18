@@ -1,3 +1,2 @@
-// export * from './core/index';
-// export * from './dom/index';
+export * from './core/index';
 export * from './utilities/index';
