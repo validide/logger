@@ -9,11 +9,9 @@
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.1",
     "@types/chai": "4.2.14",
-    "@types/jsdom": "16.2.5",
     "@types/mocha": "8.2.0",
     "chai": "4.2.0",
     "glob": "7.1.6",
-    "jsdom": "16.4.0",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
     "rimraf": "3.0.2",

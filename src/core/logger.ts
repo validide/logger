@@ -6,7 +6,7 @@ import { ILogParameterValue, LogMessage } from './logMessage';
 /**
  * Logging service.
  */
-export abstract class Logger implements IDisposable {
+export class Logger implements IDisposable {
   private _options: LoggerOptions;
 
   /**
@@ -22,13 +22,15 @@ export abstract class Logger implements IDisposable {
    *  All implementations must implement this to do the actual logging.
    * @param {LogMessage} message The message to log.
    */
-  protected abstract logCore(message: LogMessage): void;
+  protected logCore(message: LogMessage): void {
+    this._options.reporter?.register(message);
+  }
 
   /**
    * @inheritdoc
    */
-  public dispose(): Promise<void> {
-    return Promise.resolve();
+  public async dispose(): Promise<void> {
+    await this._options.reporter?.report();
   }
 
 
@@ -37,7 +39,7 @@ export abstract class Logger implements IDisposable {
    * @param {LogLevel} level The log level.
    */
   public isEnabled(level: LogLevel): boolean {
-    return level >= this._options.minimumLevel;
+    return level !== LogLevel.None && level >= this._options.minimumLevel;
   }
   /**
    * Log trace.

@@ -1,3 +1,4 @@
+export * from './enrichers/index';
 export * from './reporters/index';
 export * from './idisposable';
 export * from './iLogMessageEnricher';
