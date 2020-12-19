@@ -19,9 +19,9 @@
     "lcov",
     "html"
   ],
-  "branches": 25,
-  "lines": 25,
-  "functions": 25,
-  "statements": 25,
+  "branches": 85,
+  "lines": 85,
+  "functions": 85,
+  "statements": 85,
   "check-coverage": true
 }

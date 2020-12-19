@@ -49,7 +49,7 @@ export class Logger implements IDisposable {
     const message = new LogMessage();
     message.level = LogLevel.Trace;
     message.message = msg;
-    this.logItem(message);
+    this.logMessage(message);
   }
   /**
    * Log debug.
@@ -59,7 +59,7 @@ export class Logger implements IDisposable {
     const message = new LogMessage();
     message.level = LogLevel.Debug;
     message.message = msg;
-    this.logItem(message);
+    this.logMessage(message);
   }
   /**
    * Log information.
@@ -69,7 +69,7 @@ export class Logger implements IDisposable {
     const message = new LogMessage();
     message.level = LogLevel.Information;
     message.message = msg;
-    this.logItem(message);
+    this.logMessage(message);
   }
   /**
    * Log warning.
@@ -79,7 +79,7 @@ export class Logger implements IDisposable {
     const message = new LogMessage();
     message.level = LogLevel.Warning;
     message.message = msg;
-    this.logItem(message);
+    this.logMessage(message);
   }
   /**
    * Log error.
@@ -89,7 +89,7 @@ export class Logger implements IDisposable {
     const message = new LogMessage();
     message.level = LogLevel.Error;
     message.message = msg;
-    this.logItem(message);
+    this.logMessage(message);
   }
   /**
    * Log error.
@@ -99,31 +99,32 @@ export class Logger implements IDisposable {
     const message = new LogMessage();
     message.level = LogLevel.Critical;
     message.message = msg;
-    this.logItem(message);
+    this.logMessage(message);
   }
 
   /**
    * Log an event.
    * @param {LogLevel} level The level to log the event.
-   * @param {Error} e The error associated with the event.
    * @param {String} message Custom message.
+   * @param {Error} e The error associated with the event.
    * @param {{ [id: string]: ILogParameterValue }} params Extra parameters.
    */
-  public log(level: LogLevel, e?: Error, message?: string, params?: { [id: string]: ILogParameterValue }): void {
+  public log(level: LogLevel, message: string, e?: Error, params?: { [id: string]: ILogParameterValue }): void {
     const msg = new LogMessage();
     msg.level = level;
-    msg.message = message || e?.message || '';
+    msg.message = message;
+    msg.errorMessage = e?.message;
     msg.stackTrace = e?.stack;
     msg.extraParams = params;
 
-    this.logItem(msg);
+    this.logMessage(msg);
   }
 
   /**
    * Log a message.
    * @param {LogMessage} message The message to log.
    */
-  public logItem(message: LogMessage): void {
+  public logMessage(message: LogMessage): void {
     if (!this.isEnabled(message.level))
       return;
 

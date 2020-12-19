@@ -9,23 +9,23 @@ export function test_loggerOptions() {
     it('should have default values', () => {
       const lo = new LoggerOptions();
 
-      expect(lo.name).to.eq('');
-      expect(lo.minimumLevel).to.eq(LogLevel.Warning);
-      expect(lo.reporter).to.eq(null);
+      expect(lo.name).to.equal('');
+      expect(lo.minimumLevel).to.equal(LogLevel.Warning);
+      expect(lo.reporter).to.equal(null);
       expect(lo.enriches).to.eql([]);
     });
 
     it('should parse values', () => {
-      expect(LoggerOptions.getLevel('')).to.eq(LogLevel.None);
-      expect(LoggerOptions.getLevel(null as unknown as string)).to.eq(LogLevel.None);
-      expect(LoggerOptions.getLevel(undefined as unknown as string)).to.eq(LogLevel.None);
-      expect(LoggerOptions.getLevel('trAce')).to.eq(LogLevel.Trace);
-      expect(LoggerOptions.getLevel('deBug')).to.eq(LogLevel.Debug);
-      expect(LoggerOptions.getLevel('InforMation')).to.eq(LogLevel.Information);
-      expect(LoggerOptions.getLevel('wArning')).to.eq(LogLevel.Warning);
-      expect(LoggerOptions.getLevel('ERROR')).to.eq(LogLevel.Error);
-      expect(LoggerOptions.getLevel('critical')).to.eq(LogLevel.Critical);
-      expect(LoggerOptions.getLevel('NoNe')).to.eq(LogLevel.None);
+      expect(LoggerOptions.getLevel('')).to.equal(LogLevel.None);
+      expect(LoggerOptions.getLevel(null as unknown as string)).to.equal(LogLevel.None);
+      expect(LoggerOptions.getLevel(undefined as unknown as string)).to.equal(LogLevel.None);
+      expect(LoggerOptions.getLevel('trAce')).to.equal(LogLevel.Trace);
+      expect(LoggerOptions.getLevel('deBug')).to.equal(LogLevel.Debug);
+      expect(LoggerOptions.getLevel('InforMation')).to.equal(LogLevel.Information);
+      expect(LoggerOptions.getLevel('wArning')).to.equal(LogLevel.Warning);
+      expect(LoggerOptions.getLevel('ERROR')).to.equal(LogLevel.Error);
+      expect(LoggerOptions.getLevel('critical')).to.equal(LogLevel.Critical);
+      expect(LoggerOptions.getLevel('NoNe')).to.equal(LogLevel.None);
     });
 
   });

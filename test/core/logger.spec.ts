@@ -21,18 +21,18 @@ export function test_logger() {
     });
 
     it('should be enabled for error', () => {
-      expect(logger.isEnabled(LogLevel.Error)).to.eq(true);
+      expect(logger.isEnabled(LogLevel.Error)).to.equal(true);
     });
 
     it('should be disabled for info', () => {
-      expect(logger.isEnabled(LogLevel.Information)).to.eq(false);
+      expect(logger.isEnabled(LogLevel.Information)).to.equal(false);
     });
 
     it('should not fail if no reporter is configured', () => {
       expect(() => {
         const msg = new LogMessage();
         msg.level = LogLevel.Critical;
-        logger.logItem(msg);
+        logger.logMessage(msg);
       }).not.to.throw();
     });
 
@@ -50,16 +50,115 @@ export function test_logger() {
       message.level = LogLevel.Critical;
       message.message = 'critical message';
 
-      logger.logItem(message);
-      logger.logItem(new LogMessage());
+      logger.logMessage(message);
+      logger.logMessage(new LogMessage());
 
 
-      expect(rep.messages.length).to.eq(1);
-      expect(rep.messages[0].level).to.eq(LogLevel.Critical);
-      expect(rep.messages[0].message).to.eq('critical message');
-      expect(rep.messages[0].name).to.eq(opt.name);
-      expect(rep.messages[0].extraParams).not.to.eq(undefined);
-      expect(rep.messages[0].extraParams!.extra).to.eq('value');
+      expect(rep.messages.length).to.equal(1);
+      expect(rep.messages[0].level).to.equal(LogLevel.Critical);
+      expect(rep.messages[0].message).to.equal('critical message');
+      expect(rep.messages[0].name).to.equal(opt.name);
+      expect(rep.messages[0].extraParams).not.to.equal(undefined);
+      expect(rep.messages[0].extraParams!.extra).to.equal('value');
+    });
+
+    describe('log method', () => {
+
+      let rep: InMemoryReporter;
+      beforeEach(() => {
+        rep = new InMemoryReporter();
+        opt.reporter = rep;
+      });
+
+      it('should require only a level and a message', () =>{
+        expect(rep.messages.length).to.equal(0);
+        logger.log(LogLevel.Error, 'some message')
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Error);
+        expect(rep.messages[0].message).to.equal('some message');
+      });
+
+      it('should copy the error message and stack trace', () =>{
+        expect(rep.messages.length).to.equal(0);
+        const err = new Error('error message');
+        logger.log(LogLevel.Error, 'some message', err)
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Error);
+        expect(rep.messages[0].message).to.equal('some message');
+        expect(rep.messages[0].errorMessage).to.equal(err.message);
+        expect(rep.messages[0].stackTrace).to.equal(err.stack);
+      });
+    });
+
+    describe('log shorthand methods', () => {
+
+      let rep: InMemoryReporter;
+      beforeEach(() => {
+        rep = new InMemoryReporter();
+        opt.reporter = rep;
+        opt.minimumLevel = LogLevel.Trace
+      });
+
+      it('should have a shorthand method for "trace"', () => {
+
+        expect(rep.messages.length).to.equal(0);
+        logger.trace('some message');
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Trace);
+        expect(rep.messages[0].message).to.equal('some message');
+
+      });
+
+      it('should have a shorthand method for "debug"', () => {
+
+        expect(rep.messages.length).to.equal(0);
+        logger.debug('some message');
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Debug);
+        expect(rep.messages[0].message).to.equal('some message');
+
+      });
+
+      it('should have a shorthand method for "info"', () => {
+
+        expect(rep.messages.length).to.equal(0);
+        logger.info('some message');
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Information);
+        expect(rep.messages[0].message).to.equal('some message');
+
+      });
+
+      it('should have a shorthand method for "warn"', () => {
+
+        expect(rep.messages.length).to.equal(0);
+        logger.warn('some message');
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Warning);
+        expect(rep.messages[0].message).to.equal('some message');
+
+      });
+
+      it('should have a shorthand method for "error"', () => {
+
+        expect(rep.messages.length).to.equal(0);
+        logger.error('some message');
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Error);
+        expect(rep.messages[0].message).to.equal('some message');
+
+      });
+
+      it('should have a shorthand method for "crit"', () => {
+
+        expect(rep.messages.length).to.equal(0);
+        logger.crit('some message');
+        expect(rep.messages.length).to.equal(1);
+        expect(rep.messages[0].level).to.equal(LogLevel.Critical);
+        expect(rep.messages[0].message).to.equal('some message');
+
+      });
+
     });
 
   });

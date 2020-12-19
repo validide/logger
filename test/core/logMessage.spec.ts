@@ -11,18 +11,19 @@ export function test_logMessage() {
       const lm = new LogMessage();
       const t1 = new Date().getTime();
 
-      expect(lm.timestamp >= t0).to.eq(true);
-      expect(lm.timestamp <= t1).to.eq(true);
+      expect(lm.timestamp >= t0).to.equal(true);
+      expect(lm.timestamp <= t1).to.equal(true);
     });
 
     it('should have default values', () => {
       const lm = new LogMessage();
 
-      expect(lm.level).to.eq(LogLevel.None);
-      expect(lm.name).to.eq('');
-      expect(lm.message).to.eq('');
-      expect(lm.stackTrace).to.eq(undefined);
-      expect(lm.extraParams).to.eq(undefined);
+      expect(lm.level).to.equal(LogLevel.None);
+      expect(lm.name).to.equal('');
+      expect(lm.message).to.equal('');
+      expect(lm.errorMessage).to.equal(undefined);
+      expect(lm.stackTrace).to.equal(undefined);
+      expect(lm.extraParams).to.equal(undefined);
     });
 
     it('should have properties', () => {
@@ -32,6 +33,7 @@ export function test_logMessage() {
       lm.level = LogLevel.Trace;
       lm.name = 'name';
       lm.message = 'message';
+      lm.errorMessage = 'errorMessage';
       lm.stackTrace = 'stacktrace';
       lm.extraParams = {
         'p0': undefined,
@@ -41,16 +43,17 @@ export function test_logMessage() {
         'p4': date
       };
 
-      expect(lm.level).to.eq(LogLevel.Trace);
-      expect(lm.name).to.eq('name');
-      expect(lm.message).to.eq('message');
-      expect(lm.stackTrace).to.eq('stacktrace');
-      expect(lm.extraParams).to.not.eq(undefined);
-      expect(lm.extraParams.p0).to.eq(undefined);
-      expect(lm.extraParams.p1).to.eq(null);
-      expect(lm.extraParams.p2).to.eq(0);
-      expect(lm.extraParams.p3).to.eq('0');
-      expect(lm.extraParams.p4).to.eq(date);
+      expect(lm.level).to.equal(LogLevel.Trace);
+      expect(lm.name).to.equal('name');
+      expect(lm.message).to.equal('message');
+      expect(lm.errorMessage).to.equal('errorMessage');
+      expect(lm.stackTrace).to.equal('stacktrace');
+      expect(lm.extraParams).to.not.equal(undefined);
+      expect(lm.extraParams.p0).to.equal(undefined);
+      expect(lm.extraParams.p1).to.equal(null);
+      expect(lm.extraParams.p2).to.equal(0);
+      expect(lm.extraParams.p3).to.equal('0');
+      expect(lm.extraParams.p4).to.equal(date);
     });
 
   });

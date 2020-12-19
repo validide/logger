@@ -8,7 +8,7 @@ export class MultipleReporter implements ILogsReporter {
   private _reporters: ILogsReporter[];
 
   constructor(reporters: ILogsReporter[]) {
-    this._reporters = reporters;
+    this._reporters = reporters || [];
   }
 
   /**

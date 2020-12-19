@@ -8,13 +8,13 @@ export function test_inMemoryReporter() {
 
       const reporter = new InMemoryReporter();
 
-      expect(reporter.messages.length).to.eq(0);
+      expect(reporter.messages.length).to.equal(0);
       reporter.register(item);
-      expect(reporter.messages.length).to.eq(1);
+      expect(reporter.messages.length).to.equal(1);
       expect(reporter.messages[0]).to.eql(item);
 
       await reporter.report();
-      expect(reporter.messages.length).to.eq(1);
+      expect(reporter.messages.length).to.equal(1);
     });
   });
 }

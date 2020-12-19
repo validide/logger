@@ -13,6 +13,7 @@ export class LogMessage {
   public level: LogLevel = LogLevel.None;
   public name: string = '';
   public message: string = '';
+  public errorMessage?: string;
   public stackTrace?: string;
   public extraParams?: { [id: string]: ILogParameterValue };
 }
