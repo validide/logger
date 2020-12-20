@@ -39,7 +39,7 @@ export function test_logger() {
     it('should log', () => {
       const rep = new InMemoryReporter();
       opt.reporter = rep;
-      opt.enriches.push(new ValuesEnricher(
+      opt.enrichers.push(new ValuesEnricher(
         {
           'extra': 'value'
         },

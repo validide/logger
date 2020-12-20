@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Logger</title>
+  <meta name="description" content="Logger">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <h1 class="text-center">Logger</h1>
+  <h2 class="text-center">Look at the source, console and network tabs.</h2>
+  <script src="lib/bundle/index.js"></script>
+  <script>
+    (function(window, loggerNs, undefined) {
+      'use strict';
+
+      var developmentMode = true; // You know how to set this up ;)
+
+      var httpReporterOptions = new loggerNs.HttpReporterOptions();
+      httpReporterOptions.endpoint = 'https://jsonplaceholder.typicode.com/posts'; // You should use a working endpoint.
+      httpReporterOptions.verb = 'POST'; // You should use POST or PUT.
+      httpReporterOptions.minimumBatchSize = 20; // Depending on the amount of data and latency chose an appropriate value.
+      httpReporterOptions.interval = 2000; // The log endpoint for the demo does not work so we delay re-trying.
+
+      var logsReporter = developmentMode
+        ? new loggerNs.MultipleReporter([ // In development mode we want to log to the windows console also.
+            new loggerNs.ConsoleReporter(window.console),
+            new loggerNs.HttpReporter(httpReporterOptions)
+          ])
+        : new loggerNs.HttpReporter(httpReporterOptions);
+
+      var valuesEnricher = new loggerNs.ValuesEnricher(
+        {
+          'ua': window.navigator.userAgent
+        },
+        false
+      );
+
+
+      var loggerOptions = new loggerNs.LoggerOptions();
+      loggerOptions.name = 'MyDemoAppLogger';
+      loggerOptions.reporter = logsReporter;
+      loggerOptions.minimumLevel = loggerNs.LogLevel.Trace;
+      loggerOptions.enrichers.push(valuesEnricher);
+      var logger = new loggerNs.Logger(loggerOptions);
+
+      logger.trace('Logger initialized.');
+      logger.debug('Debug message here.');
+      logger.info('This is an information.')
+      logger.warn('This might not be a good idea.');
+      logger.error('Something bad happened');
+      logger.crit('It is critical that you get this message');
+
+      var err = new Error('A super critical error.');
+
+      logger.log(
+        loggerNs.LogLevel.Critical,
+        'Something went seriously wrong.',
+        err,
+        {
+          'user': 'Awesome User',
+          'user_level': 12345
+        }
+      )
+
+
+    })(window, window.validide_logger, void 0)
+  </script>
+</body>
+</html>

@@ -17,6 +17,7 @@ export interface IReporterConsole {
 /**
  * An implementations that outputs the messages to the console.
  * DO NOT user this in production. This is meant for development only.
+ * Depending on the browser settings some messages might noy be output to the console.
  */
 export class ConsoleReporter implements ILogsReporter {
   private _console: IReporterConsole;
@@ -38,31 +39,32 @@ export class ConsoleReporter implements ILogsReporter {
     if (this._console) {
       switch (message.level) {
         case LogLevel.Trace:
-          fn = this._console.trace;
+          fn = this._console.trace || this._console.log;
           break;
         case LogLevel.Debug:
-          fn = this._console.debug;
+          fn = this._console.debug || this._console.log;
           break;
         case LogLevel.Information:
-          fn = this._console.info;
+          fn = this._console.info || this._console.log;
           break;
         case LogLevel.Warning:
-          fn = this._console.warn;
+          fn = this._console.warn || this._console.log;
           break;
         case LogLevel.Error:
-          fn = this._console.error;
+          fn = this._console.error || this._console.log;
           break;
         case LogLevel.Critical:
-          fn = this._console.error;
+          fn = this._console.error || this._console.log;
           break;
         // case LogLevel.None: // Do not log.
         default:
+          fn = null;
           break;
       }
     }
 
     if (typeof fn === 'function') {
-      fn.call(this._console, message);
+      fn.call(this._console, message.message, message);
     }
   }
 

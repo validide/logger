@@ -117,27 +117,31 @@
             if (this._console) {
                 switch (message.level) {
                     case exports.LogLevel.Trace:
-                        fn = this._console.trace;
+                        fn = this._console.trace || this._console.log;
                         break;
                     case exports.LogLevel.Debug:
-                        fn = this._console.debug;
+                        fn = this._console.debug || this._console.log;
                         break;
                     case exports.LogLevel.Information:
-                        fn = this._console.info;
+                        fn = this._console.info || this._console.log;
                         break;
                     case exports.LogLevel.Warning:
-                        fn = this._console.warn;
+                        fn = this._console.warn || this._console.log;
                         break;
                     case exports.LogLevel.Error:
-                        fn = this._console.error;
+                        fn = this._console.error || this._console.log;
                         break;
                     case exports.LogLevel.Critical:
-                        fn = this._console.error;
+                        fn = this._console.error || this._console.log;
+                        break;
+                    // case LogLevel.None: // Do not log.
+                    default:
+                        fn = null;
                         break;
                 }
             }
             if (typeof fn === 'function') {
-                fn.call(this._console, message);
+                fn.call(this._console, message.message, message);
             }
         };
         /**
@@ -564,8 +568,8 @@
                 return;
             message.name = this._options.name;
             // tslint:disable-next-line: prefer-for-of
-            for (var index = 0; index < this._options.enriches.length; index++) {
-                this._options.enriches[index].enrich(message);
+            for (var index = 0; index < this._options.enrichers.length; index++) {
+                this._options.enrichers[index].enrich(message);
             }
             this.logCore(message);
         };
@@ -592,7 +596,7 @@
             /**
              * Log enrichers.
              */
-            this.enriches = [];
+            this.enrichers = [];
         }
         /**
          * Get the LogLevel from a string value.

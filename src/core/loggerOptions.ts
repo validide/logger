@@ -24,7 +24,7 @@ export class LoggerOptions {
   /**
    * Log enrichers.
    */
-  public enriches: ILogMessageEnricher[] = [];
+  public enrichers: ILogMessageEnricher[] = [];
 
 
   /**

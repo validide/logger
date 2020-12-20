@@ -12,7 +12,7 @@ export function test_loggerOptions() {
       expect(lo.name).to.equal('');
       expect(lo.minimumLevel).to.equal(LogLevel.Warning);
       expect(lo.reporter).to.equal(null);
-      expect(lo.enriches).to.eql([]);
+      expect(lo.enrichers).to.eql([]);
     });
 
     it('should parse values', () => {

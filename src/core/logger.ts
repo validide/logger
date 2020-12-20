@@ -130,8 +130,8 @@ export class Logger implements IDisposable {
 
     message.name = this._options.name;
     // tslint:disable-next-line: prefer-for-of
-    for (let index = 0; index < this._options.enriches.length; index++) {
-      this._options.enriches[index].enrich(message);
+    for (let index = 0; index < this._options.enrichers.length; index++) {
+      this._options.enrichers[index].enrich(message);
     }
     this.logCore(message);
   }

@@ -5,9 +5,7 @@ class DummyConsole  /* implements IReporterConsole */ {
   public messages: any[] = [];
 
   private _pushData(...data: any[]): void {
-    data?.forEach(f => {
-      this.messages.push(f);
-    });
+    this.messages.push(data);
   }
 
   debug(...data: any[]): void {
@@ -88,12 +86,44 @@ export function test_consoleReporter() {
           expect(dummy.messages.length).to.equal(0);
           reporter.register(item);
           expect(dummy.messages.length).to.equal(1);
-          expect(dummy.messages[0]).to.eql(item);
+          expect(dummy.messages[0][0]).to.eql(item.message);
+          expect(dummy.messages[0][1]).to.eql(item);
 
           await reporter.dispose();
           expect(dummy.messages.length).to.equal(1);
         });
       });
+
+      Object.keys(LogLevel)
+        .map(m => Number(m))
+        .filter(f => !isNaN(f))
+        .forEach(level => {
+          if (level === LogLevel.None) {
+            return;
+          }
+
+          const logLevel = LogLevel[level];
+          it(`should "report" the "${logLevel}" message even if instance has only the "log" method`, async () => {
+            const dummy = new DummyConsole();
+            (dummy as any).debug = null;
+            (dummy as any).trace = null;
+            (dummy as any).info = null;
+            (dummy as any).warn = null;
+            (dummy as any).error = null;
+            const reporter = new ConsoleReporter(dummy);
+            const item = new LogMessage();
+            item.level = level as LogLevel;
+
+            expect(dummy.messages.length).to.equal(0);
+            reporter.register(item);
+            expect(dummy.messages.length).to.equal(1);
+            expect(dummy.messages[0][0]).to.eql(item.message);
+            expect(dummy.messages[0][1]).to.eql(item);
+
+            await reporter.dispose();
+            expect(dummy.messages.length).to.equal(1);
+          });
+        });
 
   });
 }
