@@ -7,4 +7,5 @@ A simple JavaScript logger
 
 ## Documentation and demo
 [Documentation](https://validide.github.io/logger/)
+
 [Demo - Work in progress](https://validide.github.io/logger/demo/)
