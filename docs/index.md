@@ -44,7 +44,7 @@ httpReporterOptions.interval = 2000; // The log endpoint for the demo does not w
 
 // If we are in development mode we can use the `MultipleReporter` to wrap the HTTP reporter and the console reporter.
 var logsReporter = developmentMode
-  ? new loggerNs.MultipleReporter([ // In development mode we want to log to the windows console also.
+  ? new loggerNs.MultipleReporter([ // In development mode we also want to log to the console.
       new loggerNs.ConsoleReporter(window.console),
       new loggerNs.HttpReporter(httpReporterOptions)
     ])

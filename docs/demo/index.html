@@ -28,7 +28,7 @@
       httpReporterOptions.interval = 2000; // The log endpoint for the demo does not work so we delay re-trying.
 
       var logsReporter = developmentMode
-        ? new loggerNs.MultipleReporter([ // In development mode we want to log to the windows console also.
+        ? new loggerNs.MultipleReporter([ // In development mode we also want to log to the console.
             new loggerNs.ConsoleReporter(window.console),
             new loggerNs.HttpReporter(httpReporterOptions)
           ])
