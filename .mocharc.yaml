@@ -1,5 +1,6 @@
 # https://mochajs.org/#command-line-usage
 # https://github.com/mochajs/mocha/tree/master/example/config
+# https://github.com/mochajs/mocha/blob/master/example/config/.mocharc.yml
 
 extension:
   - ts
@@ -12,3 +13,5 @@ color: true
 full-trace: false
 reporter: spec
 spec: test/**/*.spec.ts
+slow: 100
+#exit: true # mocha hangs due to timeouts :(

@@ -1,5 +1,6 @@
 import 'mocha';
 import { test_consoleReporter } from './consoleReporter.spec';
+import { test_httpReporter } from './httpReporter.spec';
 import { test_inMemoryReporter } from './inMemoryReporter.spec';
 import { test_multipleReporter } from './multipleReporter.spec';
 
@@ -8,5 +9,6 @@ export function test_reporters() {
     test_inMemoryReporter();
     test_multipleReporter();
     test_consoleReporter();
+    test_httpReporter();
   });
 }

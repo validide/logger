@@ -2,6 +2,9 @@ import { ILogsReporter } from '../iLogsReporter';
 import { LogLevel } from '../logLevel';
 import { LogMessage } from '../logMessage';
 
+/**
+ * Abstraction over the `Console` API.
+ */
 export interface IReporterConsole {
   debug(...data: any[]): void;
   error(...data: any[]): void;
@@ -13,7 +16,7 @@ export interface IReporterConsole {
 
 /**
  * An implementations that outputs the messages to the console.
- * DO NOT user this in production. This is meant for development.
+ * DO NOT user this in production. This is meant for development only.
  */
 export class ConsoleReporter implements ILogsReporter {
   private _console: IReporterConsole;
@@ -66,7 +69,7 @@ export class ConsoleReporter implements ILogsReporter {
   /**
    * @inheritdoc
    */
-  report(): Promise<void> {
+  dispose(): Promise<void> {
     return Promise.resolve();
   }
 

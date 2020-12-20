@@ -14,7 +14,7 @@ export function test_multipleReporter() {
       expect(childReporter_B.messages.length).to.equal(0);
       reporter.register(item);
 
-      await reporter.report();
+      await reporter.dispose();
       expect(childReporter_A.messages.length).to.equal(1);
       expect(childReporter_A.messages[0]).to.eql(item);
       expect(childReporter_B.messages.length).to.equal(1);
@@ -27,7 +27,7 @@ export function test_multipleReporter() {
         const item = new LogMessage();
         const reporter = new MultipleReporter([]);
         reporter.register(item);
-        await reporter.report();
+        await reporter.dispose();
         expect(true).to.equal(true);
       } catch (error) {
         expect(false).to.equal(true);
@@ -41,7 +41,7 @@ export function test_multipleReporter() {
         const item = new LogMessage();
         const reporter = new MultipleReporter(null as any);
         reporter.register(item);
-        await reporter.report();
+        await reporter.dispose();
         expect(true).to.equal(true);
       } catch (error) {
         expect(false).to.equal(true);

@@ -23,7 +23,7 @@ export class InMemoryReporter implements ILogsReporter {
   /**
    * @inheritdoc
    */
-  report(): Promise<void> {
+  dispose(): Promise<void> {
     return Promise.resolve();
   }
 

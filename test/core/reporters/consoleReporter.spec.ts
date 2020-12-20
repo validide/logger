@@ -34,7 +34,7 @@ class DummyConsole  /* implements IReporterConsole */ {
 export function test_consoleReporter() {
   describe('ConsoleReporter', () => {
 
-  Object.values(LogLevel)
+  Object.keys(LogLevel)
     .map(m => Number(m))
     .filter(f => !isNaN(f))
     .forEach(level => {
@@ -46,7 +46,7 @@ export function test_consoleReporter() {
           item.level = level as LogLevel;
 
           reporter.register(item);
-          await reporter.report();
+          await reporter.dispose();
           expect(true).to.equal(true);
         } catch (error) {
           expect(false).to.equal(true, error);
@@ -66,11 +66,11 @@ export function test_consoleReporter() {
       reporter.register(item);
       expect(dummy.messages.length).to.equal(0);
 
-      await reporter.report();
+      await reporter.dispose();
       expect(dummy.messages.length).to.equal(0);
     });
 
-    Object.values(LogLevel)
+    Object.keys(LogLevel)
       .map(m => Number(m))
       .filter(f => !isNaN(f))
       .forEach(level => {
@@ -90,7 +90,7 @@ export function test_consoleReporter() {
           expect(dummy.messages.length).to.equal(1);
           expect(dummy.messages[0]).to.eql(item);
 
-          await reporter.report();
+          await reporter.dispose();
           expect(dummy.messages.length).to.equal(1);
         });
       });

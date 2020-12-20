@@ -30,7 +30,7 @@ export class Logger implements IDisposable {
    * @inheritdoc
    */
   public async dispose(): Promise<void> {
-    await this._options.reporter?.report();
+    await this._options.reporter?.dispose();
   }
 
 

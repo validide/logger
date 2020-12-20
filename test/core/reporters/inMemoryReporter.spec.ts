@@ -13,7 +13,7 @@ export function test_inMemoryReporter() {
       expect(reporter.messages.length).to.equal(1);
       expect(reporter.messages[0]).to.eql(item);
 
-      await reporter.report();
+      await reporter.dispose();
       expect(reporter.messages.length).to.equal(1);
     });
   });
