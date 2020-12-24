@@ -7,15 +7,72 @@
   <meta name="description" content="Logger">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="./favicon.ico" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js" integrity="sha512-9GIHU4rPKUMvNOHFOer5Zm2zHnZOjayOO3lZpokhhCtgt8FNlNiW/bb7kl0R5ZXfCDVPcQ8S4oBdNs92p5Nm2w==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css" integrity="sha512-kZqGbhf9JTB4bVJ0G8HCkqmaPcRgo88F0dneK30yku5Y/dep7CZfCnNml2Je/sY4lBoqoksXz4PtVXS4GHSUzQ==" crossorigin="anonymous" />
 </head>
 
 <body>
-  <h1 class="text-center">Logger</h1>
-  <h2 class="text-center">Look at the source, console and network tabs.</h2>
+  <div class="container">
+
+    <div class="row">
+      <div class="col">
+        <h1 class="text-center">Logger</h1>
+        <p>This is a sample to show how you can use the logger using some of the built-in reporters but also write your own reporter.<br/>To see <code>ConsoleReporter</code> open the developer tools and make sure you have the console configured to show all items.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <h3>Custom Log Reporter</h3>
+        <p>This is a demo of the scripts from the documentation page with one added reporter, the <code>BootstrapAlertReporter</code>. To see this in action open the developer the developer tools and look at the <code>Console</code> and <code>Network</code> tabs.<br/> To see the result of using ths <code>ConsoleReporter</code> open the developer tools and make sure you have the console configured to show all items (browser default configurations sometime ignore <code>console.debug</code>).</p>
+        <h4>The <code>BootstrapAlertReporter</code> code</h4>
+        <pre><code class="language-js" id="js-bootstrap-alert-reporter">
+          // This SHOULD NOT BE USED IN PRODUCTION!!!
+          // This is a stupid way of building the log list.
+          class BootstrapAlertReporter /* implements ILogsReporter */{
+            constructor(el) {
+              this._el = el;
+            }
+            register(message/* : LogMessage */) {
+              this._el.innerHTML += this.getAlertString(message);
+            }
+
+            getAlertString(message) {
+              var alertClass = message.level >= 4
+                ? 'danger'
+                : message.level === 3
+                  ? 'warning'
+                  : 'info';
+
+              return `
+              &lt;div class="alert alert-${alertClass} alert-dismissible fade show" role="alert"&gt;
+                &lt;strong&gt;${message.message}&lt;/strong&gt;
+                &lt;pre class="d-block"&gt;&lt;code&gt;${JSON.stringify(message, undefined, 2)}&lt;/code&gt;&lt;/pre&gt;
+                &lt;button type="button" class="close" data-dismiss="alert" aria-label="Close"&gt;
+                  &lt;span aria-hidden="true"&gt;&times;&lt;/span&gt;
+                &lt;/button&gt;
+              &lt;/div&gt;
+              `;
+
+              return
+            }
+          }
+        </code></pre>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h1>Result</h1>
+        <div id="the-result"></div>
+      </div>
+    </div>
+  </div>
   <script src="lib/bundle/index.js"></script>
-  <script>
+  <script src="./bootstrapAlertReporter.js" id="js-bootstra-alert-reporter-code"></script>
+  <script id="js-setup-code">
     (function(window, loggerNs, undefined) {
       'use strict';
 
@@ -30,6 +87,7 @@
       var logsReporter = developmentMode
         ? new loggerNs.MultipleReporter([ // In development mode we also want to log to the console.
             new loggerNs.ConsoleReporter(window.console),
+            new window.BootstrapAlertReporter(window.document.getElementById('the-result')),
             new loggerNs.HttpReporter(httpReporterOptions)
           ])
         : new loggerNs.HttpReporter(httpReporterOptions);
@@ -45,7 +103,7 @@
       var loggerOptions = new loggerNs.LoggerOptions();
       loggerOptions.name = 'MyDemoAppLogger';
       loggerOptions.reporter = logsReporter;
-      loggerOptions.minimumLevel = loggerNs.LogLevel.Trace;
+      loggerOptions.minimumLevel = developmentMode ? loggerNs.LogLevel.Trace : loggerNs.LogLevel.Warning;
       loggerOptions.enrichers.push(valuesEnricher);
       var logger = new loggerNs.Logger(loggerOptions);
 
@@ -68,6 +126,7 @@
         }
       )
 
+      window.hljs.highlightBlock(window.document.getElementById('js-bootstrap-alert-reporter'));
 
     })(window, window.validide_logger, void 0)
   </script>

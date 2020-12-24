@@ -63,7 +63,7 @@ var valuesEnricher = new loggerNs.ValuesEnricher(
 var loggerOptions = new loggerNs.LoggerOptions();
 loggerOptions.name = 'MyDemoAppLogger'; // In case we have multiple instances of loggers we can give each a different name.
 loggerOptions.reporter = logsReporter;
-loggerOptions.minimumLevel = loggerNs.LogLevel.Trace; // The minimum level we should log.
+loggerOptions.minimumLevel = developmentMode ? loggerNs.LogLevel.Trace : loggerNs.LogLevel.Warning; // The minimum level we should log.
 loggerOptions.enrichers.push(valuesEnricher);
 var logger = new loggerNs.Logger(loggerOptions);
 
@@ -90,4 +90,4 @@ logger.log(
 ```
 
 ## Demo and documentation
-[Demo - Work in progress](https://validide.github.io/logger/demo/)
+[Demo](https://validide.github.io/logger/demo/)
