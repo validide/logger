@@ -19,10 +19,14 @@ export class Logger implements IDisposable {
 
   /**
    * The core logging method.
-   *  All implementations must implement this to do the actual logging.
    * @param {LogMessage} message The message to log.
    */
-  protected logCore(message: LogMessage): void {
+  private logMessageCore(message: LogMessage): void {
+    message.name = this._options.name;
+    // tslint:disable-next-line: prefer-for-of
+    for (let index = 0; index < this._options.enrichers.length; index++) {
+      this._options.enrichers[index].enrich(message);
+    }
     this._options.reporter?.register(message);
   }
 
@@ -128,11 +132,8 @@ export class Logger implements IDisposable {
     if (!this.isEnabled(message.level))
       return;
 
-    message.name = this._options.name;
-    // tslint:disable-next-line: prefer-for-of
-    for (let index = 0; index < this._options.enrichers.length; index++) {
-      this._options.enrichers[index].enrich(message);
-    }
-    this.logCore(message);
+    setTimeout(() => {
+      this.logMessageCore(message);
+    }, 1);
   }
 }

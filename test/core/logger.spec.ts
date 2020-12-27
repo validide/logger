@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import 'mocha';
 import { InMemoryReporter, Logger, LoggerOptions, LogLevel, LogMessage, ValuesEnricher } from '../../src/index';
+import { getDelayPromise } from '../utils';
 // tslint:disable: no-unused-expression
 
 export function test_logger() {
@@ -36,7 +37,7 @@ export function test_logger() {
       }).not.to.throw();
     });
 
-    it('should log', () => {
+    it('should log', async () => {
       const rep = new InMemoryReporter();
       opt.reporter = rep;
       opt.enrichers.push(new ValuesEnricher(
@@ -53,6 +54,7 @@ export function test_logger() {
       logger.logMessage(message);
       logger.logMessage(new LogMessage());
 
+      await getDelayPromise(1);
 
       expect(rep.messages.length).to.equal(1);
       expect(rep.messages[0].level).to.equal(LogLevel.Critical);
@@ -70,18 +72,24 @@ export function test_logger() {
         opt.reporter = rep;
       });
 
-      it('should require only a level and a message', () =>{
+      it('should require only a level and a message', async () =>{
         expect(rep.messages.length).to.equal(0);
-        logger.log(LogLevel.Error, 'some message')
+        logger.log(LogLevel.Error, 'some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Error);
         expect(rep.messages[0].message).to.equal('some message');
       });
 
-      it('should copy the error message and stack trace', () =>{
+      it('should copy the error message and stack trace', async () =>{
         expect(rep.messages.length).to.equal(0);
         const err = new Error('error message');
-        logger.log(LogLevel.Error, 'some message', err)
+        logger.log(LogLevel.Error, 'some message', err);
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Error);
         expect(rep.messages[0].message).to.equal('some message');
@@ -96,63 +104,81 @@ export function test_logger() {
       beforeEach(() => {
         rep = new InMemoryReporter();
         opt.reporter = rep;
-        opt.minimumLevel = LogLevel.Trace
+        opt.minimumLevel = LogLevel.Trace;
       });
 
-      it('should have a shorthand method for "trace"', () => {
+      it('should have a shorthand method for "trace"', async () => {
 
         expect(rep.messages.length).to.equal(0);
         logger.trace('some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Trace);
         expect(rep.messages[0].message).to.equal('some message');
 
       });
 
-      it('should have a shorthand method for "debug"', () => {
+      it('should have a shorthand method for "debug"', async () => {
 
         expect(rep.messages.length).to.equal(0);
         logger.debug('some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Debug);
         expect(rep.messages[0].message).to.equal('some message');
 
       });
 
-      it('should have a shorthand method for "info"', () => {
+      it('should have a shorthand method for "info"', async () => {
 
         expect(rep.messages.length).to.equal(0);
         logger.info('some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Information);
         expect(rep.messages[0].message).to.equal('some message');
 
       });
 
-      it('should have a shorthand method for "warn"', () => {
+      it('should have a shorthand method for "warn"', async () => {
 
         expect(rep.messages.length).to.equal(0);
         logger.warn('some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Warning);
         expect(rep.messages[0].message).to.equal('some message');
 
       });
 
-      it('should have a shorthand method for "error"', () => {
+      it('should have a shorthand method for "error"', async () => {
 
         expect(rep.messages.length).to.equal(0);
         logger.error('some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Error);
         expect(rep.messages[0].message).to.equal('some message');
 
       });
 
-      it('should have a shorthand method for "crit"', () => {
+      it('should have a shorthand method for "crit"', async () => {
 
         expect(rep.messages.length).to.equal(0);
         logger.crit('some message');
+
+        await getDelayPromise(1);
+
         expect(rep.messages.length).to.equal(1);
         expect(rep.messages[0].level).to.equal(LogLevel.Critical);
         expect(rep.messages[0].message).to.equal('some message');

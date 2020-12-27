@@ -100,6 +100,7 @@
     /**
      * An implementations that outputs the messages to the console.
      * DO NOT user this in production. This is meant for development only.
+     * Depending on the browser settings some messages might noy be output to the console.
      */
     var ConsoleReporter = /** @class */ (function () {
         /**
@@ -453,11 +454,15 @@
         }
         /**
          * The core logging method.
-         *  All implementations must implement this to do the actual logging.
          * @param {LogMessage} message The message to log.
          */
-        Logger.prototype.logCore = function (message) {
+        Logger.prototype.logMessageCore = function (message) {
             var _a;
+            message.name = this._options.name;
+            // tslint:disable-next-line: prefer-for-of
+            for (var index = 0; index < this._options.enrichers.length; index++) {
+                this._options.enrichers[index].enrich(message);
+            }
             (_a = this._options.reporter) === null || _a === void 0 ? void 0 : _a.register(message);
         };
         /**
@@ -564,14 +569,12 @@
          * @param {LogMessage} message The message to log.
          */
         Logger.prototype.logMessage = function (message) {
+            var _this = this;
             if (!this.isEnabled(message.level))
                 return;
-            message.name = this._options.name;
-            // tslint:disable-next-line: prefer-for-of
-            for (var index = 0; index < this._options.enrichers.length; index++) {
-                this._options.enrichers[index].enrich(message);
-            }
-            this.logCore(message);
+            setTimeout(function () {
+                _this.logMessageCore(message);
+            }, 1);
         };
         return Logger;
     }());
