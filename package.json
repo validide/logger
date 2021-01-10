@@ -40,9 +40,10 @@
     "url": "git+https://github.com/validide/logger.git"
   },
   "keywords": [
-    "micro",
-    "front",
-    "end"
+    "logger",
+    "http",
+    "api",
+    "rest"
   ],
   "author": "Valentin Dide",
   "license": "MIT",
