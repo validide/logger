@@ -2,6 +2,7 @@
 A simple JavaScript logger
 
 ## Status
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7316d5f357674080891ecd20d4890e55)](https://www.codacy.com/gh/validide/logger/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=validide/logger&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/validide/logger/badge.svg?branch=main)](https://coveralls.io/github/validide/logger?branch=main)
 [![npm version](https://img.shields.io/npm/v/@validide/logger)](https://www.npmjs.com/package/@validide/logger)
 
