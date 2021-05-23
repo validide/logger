@@ -7,6 +7,7 @@
     var ValuesEnricher = /** @class */ (function () {
         /**
          * Constructor.
+         *
          * @param {{ [id: string]: ILogParameterValue }} values The values to add to the log.
          * @param {boolean} overrideExisting Override a value if it already exists.
          */
@@ -36,6 +37,7 @@
     var DynamicValuesEnricher = /** @class */ (function () {
         /**
          * Constructor.
+         *
          * @param {() =>{ [id: string]: ILogParameterValue }} valuesFunction The values to add to the log.
          * @param {boolean} overrideExisting Override a value if it already exists.
          */
@@ -105,6 +107,7 @@
     var ConsoleReporter = /** @class */ (function () {
         /**
          * Constructor.
+         *
          * @param {Console} console The current console reference.
          */
         function ConsoleReporter(console) {
@@ -116,6 +119,7 @@
         ConsoleReporter.prototype.register = function (message) {
             var fn = null;
             if (this._console) {
+                /* eslint-disable @typescript-eslint/unbound-method */
                 switch (message.level) {
                     case exports.LogLevel.Trace:
                         fn = this._console.trace || this._console.log;
@@ -140,9 +144,14 @@
                         fn = null;
                         break;
                 }
+                /* eslint-enable @typescript-eslint/unbound-method */
             }
             if (typeof fn === 'function') {
+                /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+                /* eslint-disable @typescript-eslint/no-unsafe-call */
                 fn.call(this._console, message.message, message);
+                /* eslint-enable @typescript-eslint/no-unsafe-call */
+                /* eslint-enable @typescript-eslint/no-unsafe-member-access */
             }
         };
         /**
@@ -256,7 +265,7 @@
         HttpReporter.prototype._reportCore = function () {
             var _this = this;
             var messages = this._messageQueue.splice(0);
-            return new Promise(function (resolve, _reject) {
+            return new Promise(function (resolve) {
                 var completeFn = function (success) {
                     if (!success) {
                         _this._messageQueue = _this._messageQueue.concat(messages);
@@ -266,7 +275,6 @@
                 var request = new XMLHttpRequest();
                 request.open(_this._options.verb, _this._options.endpoint);
                 request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                // tslint:disable: only-arrow-functions
                 request.onload = function () {
                     completeFn(this.status >= 200 && this.status < 300);
                 };
@@ -276,7 +284,6 @@
                 request.onabort = function () {
                     completeFn(false);
                 };
-                // tslint:enable: only-arrow-functions
                 request.send(JSON.stringify(messages));
             });
         };
@@ -447,6 +454,7 @@
     var Logger = /** @class */ (function () {
         /**
          * Constructor.
+         *
          * @param {LoggerOptions} options The logger options.
          */
         function Logger(options) {
@@ -454,14 +462,15 @@
         }
         /**
          * The core logging method.
+         *
          * @param {LogMessage} message The message to log.
          */
         Logger.prototype.logMessageCore = function (message) {
             var _a;
             message.name = this._options.name;
-            // tslint:disable-next-line: prefer-for-of
-            for (var index = 0; index < this._options.enrichers.length; index++) {
-                this._options.enrichers[index].enrich(message);
+            for (var _i = 0, _b = this._options.enrichers; _i < _b.length; _i++) {
+                var enricher = _b[_i];
+                enricher.enrich(message);
             }
             (_a = this._options.reporter) === null || _a === void 0 ? void 0 : _a.register(message);
         };
@@ -483,6 +492,7 @@
         };
         /**
          * Indicates if the specified level will be logged.
+         *
          * @param {LogLevel} level The log level.
          */
         Logger.prototype.isEnabled = function (level) {
@@ -490,6 +500,7 @@
         };
         /**
          * Log trace.
+         *
          * @param msg The message to log.
          */
         Logger.prototype.trace = function (msg) {
@@ -500,6 +511,7 @@
         };
         /**
          * Log debug.
+         *
          * @param msg The message to log.
          */
         Logger.prototype.debug = function (msg) {
@@ -510,6 +522,7 @@
         };
         /**
          * Log information.
+         *
          * @param msg The message to log.
          */
         Logger.prototype.info = function (msg) {
@@ -520,6 +533,7 @@
         };
         /**
          * Log warning.
+         *
          * @param msg The message to log.
          */
         Logger.prototype.warn = function (msg) {
@@ -530,6 +544,7 @@
         };
         /**
          * Log error.
+         *
          * @param msg The message to log.
          */
         Logger.prototype.error = function (msg) {
@@ -540,6 +555,7 @@
         };
         /**
          * Log error.
+         *
          * @param msg The message to log.
          */
         Logger.prototype.crit = function (msg) {
@@ -550,6 +566,7 @@
         };
         /**
          * Log an event.
+         *
          * @param {LogLevel} level The level to log the event.
          * @param {String} message Custom message.
          * @param {Error} e The error associated with the event.
@@ -566,6 +583,7 @@
         };
         /**
          * Log a message.
+         *
          * @param {LogMessage} message The message to log.
          */
         Logger.prototype.logMessage = function (message) {
@@ -603,6 +621,7 @@
         }
         /**
          * Get the LogLevel from a string value.
+         *
          * @param {String} level The log level as string.
          */
         LoggerOptions.getLevel = function (level) {
