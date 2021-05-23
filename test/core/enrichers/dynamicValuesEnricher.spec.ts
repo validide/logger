@@ -1,3 +1,16 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { expect } from 'chai';
 import { LogMessage, DynamicValuesEnricher } from '../../../src/index';
 
@@ -8,7 +21,7 @@ export function test_dynamicValuesEnricher() {
       const item = new LogMessage();
 
       const enricher = new DynamicValuesEnricher(
-        () => { return { 'foo': 'bar' } },
+        () => { return { 'foo': 'bar' }; },
         false
       );
 
@@ -37,7 +50,7 @@ export function test_dynamicValuesEnricher() {
       const item = new LogMessage();
 
       const enricher = new DynamicValuesEnricher(
-        () => { return { 'foo': 'bar' } },
+        () => { return { 'foo': 'bar' }; },
         false
       );
 
@@ -54,7 +67,7 @@ export function test_dynamicValuesEnricher() {
       const item = new LogMessage();
 
       const enricher = new DynamicValuesEnricher(
-        () => { return { 'foo': 'bar' } },
+        () => { return { 'foo': 'bar' }; },
         true
       );
 

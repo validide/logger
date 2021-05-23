@@ -7,6 +7,7 @@ export class DynamicValuesEnricher implements ILogMessageEnricher {
 
   /**
    * Constructor.
+   *
    * @param {() =>{ [id: string]: ILogParameterValue }} valuesFunction The values to add to the log.
    * @param {boolean} overrideExisting Override a value if it already exists.
    */

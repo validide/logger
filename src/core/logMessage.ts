@@ -11,8 +11,8 @@ export type ILogParameterValue = string | number | Date | null | undefined;
 export class LogMessage {
   public timestamp: number = new Date().getTime();
   public level: LogLevel = LogLevel.None;
-  public name: string = '';
-  public message: string = '';
+  public name = '';
+  public message = '';
   public errorMessage?: string;
   public stackTrace?: string;
   public extraParams?: { [id: string]: ILogParameterValue };

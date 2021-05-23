@@ -1,3 +1,16 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { HttpReporter, HttpReporterOptions, LogMessage } from '../../../src/index';
@@ -49,7 +62,7 @@ export function test_httpReporter() {
     });
 
     it('should throw an exception if options are not provided', () => {
-      expect(() => { const a = new HttpReporter(null as any); }).to.throw();
+      expect(() => { new HttpReporter(null as any); }).to.throw();
     });
 
     it('should not fail if calling dispose multiple times', async () => {
@@ -94,7 +107,7 @@ export function test_httpReporter() {
           while (count < httpReporterOptions.minimumBatchSize) {
             count++;
             const lm = new LogMessage();
-            lm.message = 'UNIT TEST ' + count;
+            lm.message = `UNIT TEST ${count}`;
             httpReporter.register(lm);
           }
 
@@ -139,7 +152,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST ' + count;
+          lm.message = `UNIT TEST ${count}`;
           httpReporter.register(lm);
         }
 
@@ -184,7 +197,7 @@ export function test_httpReporter() {
           { 'Content-Type': 'application/json' },
           '[]'
         );
-            } catch (error) {
+      } catch (error) {
         expect(true).to.eq(false, error);
       }
     });
@@ -198,7 +211,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST ' + count;
+          lm.message = `UNIT TEST ${count}`;
           httpReporter.register(lm);
         }
 
@@ -239,7 +252,7 @@ export function test_httpReporter() {
           { 'Content-Type': 'application/json' },
           '[]'
         );
-            } catch (error) {
+      } catch (error) {
         expect(true).to.eq(false, error);
       }
     });
@@ -253,7 +266,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST ' + count;
+          lm.message = `UNIT TEST ${count}`;
           httpReporter.register(lm);
         }
 
@@ -272,7 +285,7 @@ export function test_httpReporter() {
 
         await getDelayPromise(1);
 
-        (httpRequests[0]  as any).abort();
+        (httpRequests[0] as any).abort();
 
         await getDelayPromise(1.5 * httpReporterOptions.interval);
 
@@ -294,7 +307,7 @@ export function test_httpReporter() {
           { 'Content-Type': 'application/json' },
           '[]'
         );
-            } catch (error) {
+      } catch (error) {
         expect(true).to.eq(false, error);
       }
     });
@@ -309,7 +322,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize - 1) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST ' + count;
+          lm.message = `UNIT TEST ${count}`;
           httpReporter.register(lm);
         }
 
@@ -354,7 +367,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST ' + count;
+          lm.message = `UNIT TEST ${count}`;
           httpReporter.register(lm);
         }
 
@@ -375,7 +388,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize - 1) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST B2 ' + count;
+          lm.message = `UNIT TEST B2 ${count}`;
           httpReporter.register(lm);
         }
 
@@ -426,7 +439,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST ' + count;
+          lm.message = `UNIT TEST ${count}`;
           httpReporter.register(lm);
         }
 
@@ -447,7 +460,7 @@ export function test_httpReporter() {
         while (count < httpReporterOptions.minimumBatchSize) {
           count++;
           const lm = new LogMessage();
-          lm.message = 'UNIT TEST B2 ' + count;
+          lm.message = `UNIT TEST B2 ${count}`;
           httpReporter.register(lm);
         }
 

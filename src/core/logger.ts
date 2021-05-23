@@ -11,6 +11,7 @@ export class Logger implements IDisposable {
 
   /**
    * Constructor.
+   *
    * @param {LoggerOptions} options The logger options.
    */
   constructor(options: LoggerOptions) {
@@ -19,13 +20,13 @@ export class Logger implements IDisposable {
 
   /**
    * The core logging method.
+   *
    * @param {LogMessage} message The message to log.
    */
   private logMessageCore(message: LogMessage): void {
     message.name = this._options.name;
-    // tslint:disable-next-line: prefer-for-of
-    for (let index = 0; index < this._options.enrichers.length; index++) {
-      this._options.enrichers[index].enrich(message);
+    for (const enricher of this._options.enrichers) {
+      enricher.enrich(message);
     }
     this._options.reporter?.register(message);
   }
@@ -40,6 +41,7 @@ export class Logger implements IDisposable {
 
   /**
    * Indicates if the specified level will be logged.
+   *
    * @param {LogLevel} level The log level.
    */
   public isEnabled(level: LogLevel): boolean {
@@ -47,6 +49,7 @@ export class Logger implements IDisposable {
   }
   /**
    * Log trace.
+   *
    * @param msg The message to log.
    */
   public trace(msg: string): void {
@@ -57,6 +60,7 @@ export class Logger implements IDisposable {
   }
   /**
    * Log debug.
+   *
    * @param msg The message to log.
    */
   public debug(msg: string): void {
@@ -67,6 +71,7 @@ export class Logger implements IDisposable {
   }
   /**
    * Log information.
+   *
    * @param msg The message to log.
    */
   public info(msg: string): void {
@@ -77,6 +82,7 @@ export class Logger implements IDisposable {
   }
   /**
    * Log warning.
+   *
    * @param msg The message to log.
    */
   public warn(msg: string): void {
@@ -87,6 +93,7 @@ export class Logger implements IDisposable {
   }
   /**
    * Log error.
+   *
    * @param msg The message to log.
    */
   public error(msg: string): void {
@@ -97,6 +104,7 @@ export class Logger implements IDisposable {
   }
   /**
    * Log error.
+   *
    * @param msg The message to log.
    */
   public crit(msg: string): void {
@@ -108,6 +116,7 @@ export class Logger implements IDisposable {
 
   /**
    * Log an event.
+   *
    * @param {LogLevel} level The level to log the event.
    * @param {String} message Custom message.
    * @param {Error} e The error associated with the event.
@@ -126,6 +135,7 @@ export class Logger implements IDisposable {
 
   /**
    * Log a message.
+   *
    * @param {LogMessage} message The message to log.
    */
   public logMessage(message: LogMessage): void {

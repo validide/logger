@@ -8,19 +8,19 @@ export class HttpReporterOptions {
   /**
    * Endpoint that receives the logs.
    */
-  public endpoint: string = '';
+  public endpoint = '';
   /**
    * HTTP verb used when calling the endpoint.
    */
-  public verb: string = 'POST';
+  public verb = 'POST';
   /**
    * The minimum number of items to send in a batch.
    */
-  public minimumBatchSize: number = 20;
+  public minimumBatchSize = 20;
   /**
    * The maximum interval, in milliseconds, to wait for the batch size to be achieved before reporting.
    */
-  public interval: number = 2_000;
+  public interval = 2_000;
 }
 
 
@@ -116,7 +116,7 @@ export class HttpReporter implements ILogsReporter {
 
   private _reportCore(): Promise<void> {
     const messages = this._messageQueue.splice(0);
-    return new Promise((resolve, _reject) => {
+    return new Promise(resolve => {
       const completeFn = (success: boolean) => {
         if (!success) {
           this._messageQueue = this._messageQueue.concat(messages);
@@ -128,17 +128,15 @@ export class HttpReporter implements ILogsReporter {
       const request = new XMLHttpRequest();
       request.open(this._options.verb, this._options.endpoint);
       request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-      // tslint:disable: only-arrow-functions
       request.onload = function () {
         completeFn(this.status >= 200 && this.status < 300);
       };
-      request.onerror = function () {
+      request.onerror = () => {
         completeFn(false);
       };
-      request.onabort = function () {
+      request.onabort = () => {
         completeFn(false);
       };
-      // tslint:enable: only-arrow-functions
       request.send(JSON.stringify(messages));
     });
   }

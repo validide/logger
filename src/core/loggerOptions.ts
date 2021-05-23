@@ -9,7 +9,7 @@ export class LoggerOptions {
   /**
    * The name of the logger.
    */
-  public name: string = '';
+  public name = '';
 
   /**
    * The reporter for the messages.
@@ -29,6 +29,7 @@ export class LoggerOptions {
 
   /**
    * Get the LogLevel from a string value.
+   *
    * @param {String} level The log level as string.
    */
   public static getLevel(level: string): LogLevel {
