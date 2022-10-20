@@ -62,7 +62,7 @@ export function test_httpReporter() {
     });
 
     it('should throw an exception if options are not provided', () => {
-      expect(() => { new HttpReporter(null as any); }).to.throw();
+      expect(() => { new HttpReporter(null as unknown as HttpReporterOptions); }).to.throw();
     });
 
     it('should not fail if calling dispose multiple times', async () => {
@@ -74,7 +74,7 @@ export function test_httpReporter() {
 
         expect(true).to.eq(true);
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -93,7 +93,7 @@ export function test_httpReporter() {
 
         expect(true).to.eq(true);
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -138,7 +138,7 @@ export function test_httpReporter() {
 
           expect(httpRequests.length).to.equal(1, 'First calls should have been successful so no call should be done after.');
         } catch (error) {
-          expect(true).to.eq(false, error);
+          expect(true).to.eq(false, error as unknown as string);
         }
       });
     });
@@ -198,7 +198,7 @@ export function test_httpReporter() {
           '[]'
         );
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -253,7 +253,7 @@ export function test_httpReporter() {
           '[]'
         );
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -308,7 +308,7 @@ export function test_httpReporter() {
           '[]'
         );
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -353,7 +353,7 @@ export function test_httpReporter() {
 
         expect(true).to.eq(true);
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -425,7 +425,7 @@ export function test_httpReporter() {
 
         expect(true).to.eq(true);
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -492,7 +492,7 @@ export function test_httpReporter() {
 
         expect(true).to.eq(true);
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 
@@ -537,7 +537,7 @@ export function test_httpReporter() {
 
         expect(true).to.eq(true);
       } catch (error) {
-        expect(true).to.eq(false, error);
+        expect(true).to.eq(false, error as unknown as string);
       }
     });
 

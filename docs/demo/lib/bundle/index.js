@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
     typeof define === 'function' && define.amd ? define(['exports'], factory) :
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.validide_logger = {}));
-}(this, (function (exports) { 'use strict';
+})(this, (function (exports) { 'use strict';
 
     var ValuesEnricher = /** @class */ (function () {
         /**
@@ -68,6 +68,7 @@
     /**
      * Log level
      */
+    exports.LogLevel = void 0;
     (function (LogLevel) {
         /**
          * Logs that contain the most detailed messages. These messages may contain sensitive application data. These messages are disabled by default and should never be enabled in a production environment.
@@ -249,7 +250,7 @@
                 return;
             }
             clearTimeout(this._reportActionTimeoutRef);
-            this._reportActionTimeoutRef = 0;
+            this._reportActionTimeoutRef = null;
         };
         HttpReporter.prototype._scheduleNextReportAction = function () {
             var _this = this;
@@ -320,7 +321,7 @@
         return InMemoryReporter;
     }());
 
-    var __awaiter = (window && window.__awaiter) || function (thisArg, _arguments, P, generator) {
+    var __awaiter$1 = (window && window.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -329,7 +330,7 @@
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    var __generator = (window && window.__generator) || function (thisArg, body) {
+    var __generator$1 = (window && window.__generator) || function (thisArg, body) {
         var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
         return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
@@ -376,9 +377,9 @@
          * @inheritdoc
          */
         MultipleReporter.prototype.dispose = function () {
-            return __awaiter(this, void 0, void 0, function () {
+            return __awaiter$1(this, void 0, void 0, function () {
                 var proms, _i, _a, reporter;
-                return __generator(this, function (_b) {
+                return __generator$1(this, function (_b) {
                     switch (_b.label) {
                         case 0:
                             proms = new Array();
@@ -412,7 +413,7 @@
         return LogMessage;
     }());
 
-    var __awaiter$1 = (window && window.__awaiter) || function (thisArg, _arguments, P, generator) {
+    var __awaiter = (window && window.__awaiter) || function (thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
             function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -421,7 +422,7 @@
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    var __generator$1 = (window && window.__generator) || function (thisArg, body) {
+    var __generator = (window && window.__generator) || function (thisArg, body) {
         var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
         return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
@@ -479,8 +480,8 @@
          */
         Logger.prototype.dispose = function () {
             var _a;
-            return __awaiter$1(this, void 0, void 0, function () {
-                return __generator$1(this, function (_b) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0: return [4 /*yield*/, ((_a = this._options.reporter) === null || _a === void 0 ? void 0 : _a.dispose())];
                         case 1:
@@ -650,7 +651,5 @@
     exports.MultipleReporter = MultipleReporter;
     exports.ValuesEnricher = ValuesEnricher;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+}));
 //# sourceMappingURL=index.js.map

@@ -12,7 +12,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { expect } from 'chai';
-import { LogMessage, ValuesEnricher } from '../../../src/index';
+import { ILogParameterValue, LogMessage, ValuesEnricher } from '../../../src/index';
+
+type LogParamMap = { [id: string]: ILogParameterValue };
 
 export function test_valuesEnricher() {
   describe('ValuesEnricher', () => {
@@ -36,12 +38,12 @@ export function test_valuesEnricher() {
     it('should not touch the message if values are missing', () => {
       const item = new LogMessage();
 
-      const undefinedEnricher = new ValuesEnricher(undefined as any, false);
+      const undefinedEnricher = new ValuesEnricher(undefined as unknown as LogParamMap, false);
       expect(item.extraParams).to.equal(undefined);
       undefinedEnricher.enrich(item);
       expect(item.extraParams).to.equal(undefined);
 
-      const nullEnricher = new ValuesEnricher(null as any, false);
+      const nullEnricher = new ValuesEnricher(null as unknown as LogParamMap, false);
       expect(item.extraParams).to.equal(undefined);
       nullEnricher.enrich(item);
       expect(item.extraParams).to.equal(undefined);

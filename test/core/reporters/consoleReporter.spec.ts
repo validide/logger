@@ -10,6 +10,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { expect } from 'chai';
 import { ConsoleReporter, LogLevel, LogMessage } from '../../../src/index';
@@ -60,7 +61,7 @@ export function test_consoleReporter() {
             await reporter.dispose();
             expect(true).to.equal(true);
           } catch (error) {
-            expect(false).to.equal(true, error);
+            expect(false).to.equal(true, error as unknown as string);
           }
         });
       });

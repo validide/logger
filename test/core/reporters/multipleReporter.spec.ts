@@ -12,7 +12,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { expect } from 'chai';
-import { InMemoryReporter, LogMessage, MultipleReporter } from '../../../src/index';
+import { ILogsReporter, InMemoryReporter, LogMessage, MultipleReporter } from '../../../src/index';
 
 export function test_multipleReporter() {
   describe('MultipleReporter', () => {
@@ -52,7 +52,7 @@ export function test_multipleReporter() {
 
       try {
         const item = new LogMessage();
-        const reporter = new MultipleReporter(null as any);
+        const reporter = new MultipleReporter(null as unknown as ILogsReporter[]);
         reporter.register(item);
         await reporter.dispose();
         expect(true).to.equal(true);

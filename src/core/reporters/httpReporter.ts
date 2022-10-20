@@ -27,7 +27,7 @@ export class HttpReporterOptions {
 export class HttpReporter implements ILogsReporter {
   private _messageQueue: LogMessage[];
   private _options: HttpReporterOptions;
-  private _reportActionTimeoutRef: any;
+  private _reportActionTimeoutRef: ReturnType<typeof setTimeout> | null;
   private _reportActionPromise: Promise<void> | null;
   private _disposed: boolean;
 
@@ -99,7 +99,7 @@ export class HttpReporter implements ILogsReporter {
     }
 
     clearTimeout(this._reportActionTimeoutRef);
-    this._reportActionTimeoutRef = 0;
+    this._reportActionTimeoutRef = null;
   }
 
   private _scheduleNextReportAction(): void {

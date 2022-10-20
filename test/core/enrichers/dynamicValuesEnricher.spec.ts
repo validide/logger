@@ -12,7 +12,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
 import { expect } from 'chai';
-import { LogMessage, DynamicValuesEnricher } from '../../../src/index';
+import { LogMessage, DynamicValuesEnricher, ILogParameterValue } from '../../../src/index';
+
+type LogParamFunc = () => { [id: string]: ILogParameterValue };
 
 export function test_dynamicValuesEnricher() {
   describe('DynamicValuesEnricher', () => {
@@ -34,12 +36,12 @@ export function test_dynamicValuesEnricher() {
     it('should not touch the message if values are missing', () => {
       const item = new LogMessage();
 
-      const undefinedEnricher = new DynamicValuesEnricher(undefined as any, false);
+      const undefinedEnricher = new DynamicValuesEnricher(undefined as unknown as LogParamFunc, false);
       expect(item.extraParams).to.equal(undefined);
       undefinedEnricher.enrich(item);
       expect(item.extraParams).to.equal(undefined);
 
-      const nullEnricher = new DynamicValuesEnricher(null as any, false);
+      const nullEnricher = new DynamicValuesEnricher(null as unknown as LogParamFunc, false);
       expect(item.extraParams).to.equal(undefined);
       nullEnricher.enrich(item);
       expect(item.extraParams).to.equal(undefined);
