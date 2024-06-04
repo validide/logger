@@ -1,3 +1,9 @@
+> **ARCHIVE NOTICE**  
+> This project has been archived in favour of https://github.com/adaptive-architecture/common-utilities 
+
+
+
+
 # logger
 A simple JavaScript logger
 
